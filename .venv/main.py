@@ -13,6 +13,9 @@ with open('file_1.txt', 'r+') as f:
     f.write(content)
 
 
+
+
+
 #print(new_doc.decode("utf8"))
 # Найти все элементы с тегом <span> и классом 'price'
 #content = soup.find_all()
