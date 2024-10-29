@@ -1,5 +1,6 @@
 # from display import HTML
 from bs4 import BeautifulSoup
+import pandas as pd
 
 html = """
 <html><body>
@@ -38,7 +39,18 @@ print(srch_4[2])
 for a in soup.find("ol").find_all("a"):
 	print(a.get('href'))
 
-for a in soup.find("ol").find_all("a"):
-	href = a.get('href')
-	if href is not None:
-		print(href)
+# for a in soup.find("ol").find_all("a"):
+# 	href = a.get('href')
+# 	if href is not None:
+# 		print(href)
+# from robobrowser import RoboBrowser
+
+links = []
+for a in soup("a"):
+	links.append((a.string, a.get('href')))
+print(links)
+
+df = pd.DataFrame(links, columns=['link_text', 'href'])
+df		#rows and columns asis
+df.dropna()	#drop None
+df.isna()	#bool Turn or False

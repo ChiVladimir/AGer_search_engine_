@@ -6,11 +6,24 @@ url = 'https://fastfairy.ru/products/category/prinadlezhnosti-kamina'
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'lxml')
 #new_doc = UnicodeDammit.detwingle(doc)
-content = str(soup.find_all())
-print(type(content))
+#print(soup)
+srch_1 = soup.find("article class")
+print('srch_1', srch_1)
+
+srch_2 = soup.find_all("div")
+print('srch_2',srch_2)
+
+srch_3 = soup.find("a")
+print(srch_3)
+
+
+# for a in soup.find("article class").find_all("div class"):
+# 	href = a.get('href')
+# 	if href is not None:
+# 		print(href)
 #print(content)
-with open('file_1.txt', 'r+') as f:
-    f.write(content)
+#with open('file_1.txt', 'r+') as f:
+#    f.write(content)
 
 
 #print(new_doc.decode("utf8"))
