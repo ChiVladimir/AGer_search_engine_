@@ -8,4 +8,5 @@ url = url_bgn + url_end
 print(url)
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'lxml')
-print(soup.find_all("div", {"data-marker": "catalog-serp"}))
+item_item = soup.find_all("div", {"data-marker": "catalog-serp"})
+item = item_item[0].find_all("meta")
