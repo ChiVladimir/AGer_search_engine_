@@ -45,9 +45,34 @@ point_from = name_drt.index('">')
 point_to = name_drt.index('</h3')
 name = name_drt[point_from + 2:point_to]
 print(name)
+
 #Цена
+
 price_drt = str(soup.find("span", class_ = "styles-module-size_xxxxl-f_FvC"))
 point_from = price_drt.index('tent="')
 point_to = price_drt.index('" data')
 price = price_drt[point_from + 6:point_to]
 print(price)
+
+#Продавец
+
+company_name_drt = str(soup.find("h3", class_ = "styles-module-root-W_crH styles-module-root-o3j6a styles-module-"
+                                                "size_xl-smy1L styles-module-size_xl_dense-Qxvdb styles-module-size_xl"
+                                                "_compensated-VsNpt styles-module-size_xl-TN4iZ styles-module-ellipsis"
+                                                "-XeCfh styles-module-size_dense-cyeE0 stylesMarningNormal-module-"
+                                                "root-_BXZU stylesMarningNormal-module-header-xl-b8TLy"))
+#print(company_name_drt)
+point_from = company_name_drt.index('="">')
+point_to = company_name_drt.index('</span></a></h3>')
+company_name = company_name_drt[point_from + 4:point_to]
+print(company_name)
+
+#Вывод в таблицу
+
+data = {'Позиция':'', 'ID':data_item_id[0], 'Заголовок':name, 'Цена':price, 'Просм. всего':'', 'Просм. сегодня':''
+    , 'Продвижение':'', 'Время поднятия':'', 'Фото (шт)':'', 'Текст':'', 'Кол-во знаков':'', 'Доставка':''
+    , 'Имя продавца':company_name, 'ID продавца':'', 'Тип продавца':'', 'Скорость ответа':'', 'Рейтинг продавца':''
+    , 'Отзывов продавца':'', 'Адрес':'', 'Ссылка':'', 'Фото (ссылки)':''}
+
+output_table = pd.DataFrame(data, index=[0])
+print (output_table)
