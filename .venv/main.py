@@ -67,12 +67,45 @@ point_to = company_name_drt.index('</span></a></h3>')
 company_name = company_name_drt[point_from + 4:point_to]
 print(company_name)
 
+#seller_info_rating
+
+seller_class_drt = str(soup.find("div", class_ = "style-seller-info-rating-xHI5T seller-info-rating"))
+point_from = seller_class_drt.index('m-n6S6Y">')
+seller_info_rating = seller_class_drt[point_from + 9:point_from + 12]
+print(seller_info_rating)
+
+#seller_class
+
+seller_class_drt = str(soup.find("a", class_ = "styles-module-root-iSkj3 styles-module-size_m-n6S6Y styles-module"
+                                               "-root_noVisited-qJP5D styles-module-root_preset_black-PbPLe"))
+point_to = seller_class_drt.index('</a>')
+point_from = seller_class_drt.index('">')
+seller_responce = seller_class_drt[point_from + 2:point_to]
+print(seller_responce)
+
+#speed_of_responce
+
+speed_of_responce_drt = str(soup.find("div", class_ = "style-sellerInfoReplyTime-EdRsf"))
+point_from = speed_of_responce_drt.index('pH9s3">')
+point_to = speed_of_responce_drt.index('</p></div>')
+speed_of_responce = speed_of_responce_drt[point_from + 7:point_to]
+print(speed_of_responce)
+
+#address
+
+address_drt = str(soup.find("span", class_ = "style-item-address__string-wt61A"))
+point_from = address_drt.index('-wt61A">')
+point_to = address_drt.index('</span>')
+address = address_drt[point_from + 8:point_to]
+print(address)
+
 #Вывод в таблицу
 
-data = {'Позиция':'', 'ID':data_item_id[0], 'Заголовок':name, 'Цена':price, 'Просм. всего':'', 'Просм. сегодня':''
-    , 'Продвижение':'', 'Время поднятия':'', 'Фото (шт)':'', 'Текст':'', 'Кол-во знаков':'', 'Доставка':''
-    , 'Имя продавца':company_name, 'ID продавца':'', 'Тип продавца':'', 'Скорость ответа':'', 'Рейтинг продавца':''
-    , 'Отзывов продавца':'', 'Адрес':'', 'Ссылка':'', 'Фото (ссылки)':''}
+data = {'Позиция':'', 'ID':data_item_id[0], 'Заголовок':name, 'Цена':price, 'Просм. всего':'', 'Просм. сегодня':'',
+        'Продвижение':'', 'Время поднятия':'', 'Фото (шт)':'', 'Текст':'', 'Кол-во знаков':'', 'Доставка':'',
+        'Имя продавца':company_name, 'ID продавца':'', 'Тип продавца':'', 'Скорость ответа':speed_of_responce,
+        'Рейтинг продавца':seller_info_rating, 'Отзывов продавца':seller_responce, 'Адрес':address, 'Ссылка':'',
+        'Фото (ссылки)':''}
 
 output_table = pd.DataFrame(data, index=[0])
 print (output_table)
