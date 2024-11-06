@@ -3,17 +3,22 @@ import pandas as pd
 import re
 #from IPython.display import HTML
 import requests
+import os
+from fake_useragent import UserAgent
+#UserAgent().chrome
 
 
 # Нырок 1, в список
-url_bgn = 'https://www.avito.ru/all/mall/zapchasti_i_aksessuary?q='
-url_end =  str(input('Введите запрос для поиска (вместо пробелов необходимо ввести +) >>>'))
-url = url_bgn + url_end
+#url_bgn = 'https://www.avito.ru/all/mall/zapchasti_i_aksessuary?q='
+#url_end =  str(input('Введите запрос для поиска (вместо пробелов необходимо ввести +) >>>'))
+#url = url_bgn + url_end
 #print(url)
-response = requests.get(url)
+url = 'https://www.avito.ru/all?cd=1&f=ASgBAgICAUTgkxPOi44D&q=эвакуатор+с+манипулятором'
+response = requests.get(url, headers={'User-Agent': UserAgent().safari})
 soup = BeautifulSoup(response.text, 'lxml')
+print(soup)
 item_item = soup.find_all("div", {"data-marker": "catalog-serp"})
-
+print(item_item)
 quest = str(item_item[0])
 
 indexes = []
@@ -32,7 +37,7 @@ for i in range(len(indexes)):
 
 url_chld = 'https://www.avito.ru/' + data_item_id[0]
 #print(url_chld)
-response = requests.get(url_chld)
+response = requests.get(url_chld, headers={'User-Agent': UserAgent().chrome})
 soup = BeautifulSoup(response.text, 'lxml')
 #Название
 name_drt = str(soup.find("h3", class_ = "styles-module-root-W_crH styles-module-root-o3j6a styles-module-size_xl"
@@ -107,5 +112,5 @@ data = {'Позиция':'', 'ID':data_item_id[0], 'Заголовок':name, '�
         'Рейтинг продавца':seller_info_rating, 'Отзывов продавца':seller_responce, 'Адрес':address, 'Ссылка':'',
         'Фото (ссылки)':''}
 
-output_table = pd.DataFrame(data, index=[0])
-print (output_table)
+df = pd.DataFrame(data, index=[1])
+df.to_csv("/Users/vladimirchi/Downloads/data.csv", index=False)
