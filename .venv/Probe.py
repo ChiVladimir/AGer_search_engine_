@@ -1,8 +1,8 @@
-my_list = [42, 69, 322, 13, 0, 99, -5, 9, 8, 7, -6, 5]
-for it in range(len(my_list)):
-    if my_list[it] == 0:
-        continue
-    elif my_list[it] > 0:
-        print(my_list[it])
-    elif my_list[it] < 0:
-        break
+
+name = 'data_item_id.txt'
+
+data_item_id = list
+with open(name, 'r', encoding='utf-8') as file:
+    data_item_id = file.readlines()
+    print(len(data_item_id), type(data_item_id))
+

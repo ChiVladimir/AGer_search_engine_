@@ -18,25 +18,25 @@ response = requests.get(url, headers={'User-Agent': UserAgent().safari})
 soup = BeautifulSoup(response.text, 'lxml')
 print(soup)
 item_item = soup.find_all("div", {"data-marker": "catalog-serp"})
-print(item_item)
+#print(item_item)
 quest = str(item_item[0])
 
 indexes = []
 for match in re.finditer(r'data-item-id', quest):
     indexes.append(match.start())
-#print(indexes)
+print(indexes)
 
 data_item_id = []
 for i in range(len(indexes)):
     x=indexes[i]+14
     y = x + 10
     data_item_id.append(quest[x:y])
-#print(data_item_id)
+print(data_item_id)
 
 # Нырок 2, в заметки
 
 url_chld = 'https://www.avito.ru/' + data_item_id[0]
-#print(url_chld)
+print(url_chld)
 response = requests.get(url_chld, headers={'User-Agent': UserAgent().chrome})
 soup = BeautifulSoup(response.text, 'lxml')
 #Название
