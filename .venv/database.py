@@ -61,9 +61,21 @@ def word_connect_root(word, root, id_root):
     connection.commit()
 
 def get_all():
-     s = cursor.execute("SELECT word, id_root, pattern, root_wiki FROM Words ORDER by id_root, word;").fetchall()
+     s = cursor.execute("SELECT * FROM Words ORDER by id_root, word;").fetchall()
      connection.commit()
      return s
+
+def get_all_roots():
+    s = cursor.execute("SELECT DISTINCT id_root, pattern, root_wiki FROM Words ORDER by id_root;").fetchall()
+    connection.commit()
+    return s
+
+def get_words_from_roots(pattern):
+    s = cursor.execute(f"SELECT word FROM Words WHERE pattern = '{pattern}' "
+                       f"AND part_of_speech != 'топонимы' AND part_of_speech != 'фамилии' AND part_of_speech != 'имена собственные';").fetchall()
+    connection.commit()
+    return s
+
 #
 # def count():
 #     s = cursor.execute("SELECT COUNT(*) FROM users;").fetchone()
