@@ -14,7 +14,9 @@ cursor.execute('''
 CREATE TABLE IF NOT EXISTS Words(
 id INTEGER PRIMARY KEY,
 word TEXT NOT NULL,
-id_root TEXT
+id_root TEXT, 
+pattern TEXT,
+part_of_speech TEXT
 )
 ''')
 
@@ -30,19 +32,17 @@ def filling_roots(args):
         cursor.execute(f'INSERT INTO Roots (id_root_group, id_root, root) VALUES({root_group}, {id_root}, {root});')
     connection.commit()
 
-def filling_words(args):
-    word_list = list(args.split(' '))
-    id_ = cursor.execute("SELECT id FROM Words;").fetchall()
-    new_id = max(id_) + 1
-    for i in range(len(word_list)):
-        check_word = cursor.execute(f"SELECT COUNT(*) FROM Words WHERE word = {word_list[i]};")
-        if check_word > 0:
-            print ((f"Word |{word_list[i]}| already exist. Check please manualy or update root special procedure."))
-            continue
-        else:
-            id = id_ + i
-            word = word_list[i]
-            cursor.execute(f'INSERT INTO Words (id, word) VALUES({id}, {word});')
+def filling_words(word, pattern, root, root_wiki, part_of_speech):
+    print ((word, pattern, root, root_wiki, part_of_speech))
+    id_ = cursor.execute("SELECT COUNT(*) FROM Words;").fetchone()
+#    print (id_[0], type(id_))
+    new_id = id_[0] + 1
+    check_word = cursor.execute(f"SELECT COUNT(*) FROM Words WHERE word = '{word}';").fetchone()
+    if check_word[0] > 0:
+        print ((f"Word |{word}| already exist. Check please manualy or update root special procedure."))
+    else:
+        cursor.execute(f'INSERT INTO Words (id, word, pattern, id_root, root_wiki, part_of_speech) '
+                       f'VALUES({new_id}, "{word}", "{pattern}", "{root}", "{root_wiki}", "{part_of_speech}")')
     connection.commit()
 
 def update_word_and_root(word, root):
@@ -60,10 +60,10 @@ def word_connect_root(word, root, id_root):
     cursor.execute(f'UPDATE Words SET id_root = {id_root} WHERE id = {id_word}')
     connection.commit()
 
-# def get_all():
-#     s = cursor.execute("SELECT * FROM users;").fetchall()
-#     connection.commit()
-#     return s
+def get_all():
+     s = cursor.execute("SELECT word, id_root, pattern, root_wiki FROM Words ORDER by id_root, word;").fetchall()
+     connection.commit()
+     return s
 #
 # def count():
 #     s = cursor.execute("SELECT COUNT(*) FROM users;").fetchone()

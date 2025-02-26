@@ -5,6 +5,7 @@ import re
 import requests
 import os
 from fake_useragent import UserAgent
+from database import filling_words
 
 # Нырок 1, получаем слово\фразу, делаем выборку по слову\фразе и ее элементам
 
@@ -37,8 +38,10 @@ def extractor(data_item_query):
     print(root_wiki)
 # source
     source_drt = item.find("span", class_="source")
-    source = str(source_drt.text)[1:-1]
-    print(source)
+    print (source_drt)
+    if source_drt != None:
+        source = str(source_drt.text)[1:-1]
+        print(source)
 
 #Словарь - Часть речи:[Слово]
     dict = item.find("td", class_="block-body")
@@ -52,15 +55,24 @@ def extractor(data_item_query):
 
     print(word_dict)
 
+# DataBase output
+    for item in word_dict.items():
+        part_of_speech = item[0]
+#        print (item[0], item[1])
+        for i in range(len(item[1])):
+            print (item[1][i], pattern_name, root, root_wiki, item[0])
+            filling_words(item[1][i], pattern_name, root, root_wiki, item[0])
+
+
 #Вывод в таблицу
 
-    data = {'Шаблон': pattern_name, 'Корень Wiktionary': root_wiki, 'Источник(если указан)': source,
-            'Части речи и слова': [word_dict]}
-    print(data)
-    df = pd.DataFrame(data, index=[1])
-    pd.DataFrame(data, index=[1])
-    # df.to_csv("/Users/vladimirchi/Downloads/data.csv", index=False)
-    df.to_csv("data.csv", index=False)
+    # data = {'Шаблон': pattern_name, 'Корень Wiktionary': root_wiki, 'Источник(если указан)': source,
+    #         'Части речи и слова': [word_dict]}
+    # print(data)
+    # df = pd.DataFrame(data, index=[1])
+    # pd.DataFrame(data, index=[1])
+    # # df.to_csv("/Users/vladimirchi/Downloads/data.csv", index=False)
+    # df.to_csv("data.csv", index=False)
 
 
 # name = 'List_of_root_morphemes.txt'
@@ -70,5 +82,9 @@ def extractor(data_item_query):
 #     data_item_id = file.readlines()
 #     print(len(data_item_id), type(data_item_id))
 
-extractor("Шаблон:родств:прав")
-extractor("Шаблон:родств:акт")
+#root = "прав"
+#extractor("Шаблон:родств:прав")
+
+# root = "акт"
+# extractor("Шаблон:родств:акт")
+
