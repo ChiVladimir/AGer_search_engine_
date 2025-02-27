@@ -86,13 +86,13 @@ def get_word_and_root(word, flag):
 #    print (check_word)
     if len(check_word) > 0 and flag == True:
 #        print (len(check_word))
-        cursor.execute(f'UPDATE Words SET marker = "слово есть в КС06, корень отдан" WHERE word = "{word}";')
+        cursor.execute(f'UPDATE Words SET marker = "слово есть в КС13, корень отдан" WHERE word = "{word}";')
         connection.commit()
 #        print(check_word[0][0])
         return check_word[0][0]
 
     elif len(check_word) > 0 and flag == False:
-        cursor.execute(f'UPDATE Words SET marker = "слово есть в КС06 уже с корнем" WHERE word = "{word}";')
+        cursor.execute(f'UPDATE Words SET marker = "слово есть в КС13 уже с корнем" WHERE word = "{word}";')
         connection.commit()
         return ''
 

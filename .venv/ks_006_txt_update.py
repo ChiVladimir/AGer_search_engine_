@@ -23,11 +23,11 @@ def root_cleaning(root):
         return ''
 
 def line_update(line, root): #склеиваем строку
-    name = 'ks_006_updated.txt'
+    name = 'ks_013_updated.txt'
     with open(name, 'a', encoding='utf-8') as file:
 #        print(f'{line}{root_cleaning(root)}')
-        line_into = f'{line}{root_cleaning(root)}'
-        file.write(line_into)
+#        line_into = f'{line}{root_cleaning(root)}'
+        file.write(f'{line[:-1]}{root_cleaning(root)}\n')
         file.close()
 
 
@@ -38,12 +38,15 @@ def line_update(line, root): #склеиваем строку
 # root = word_check(word, flag)
 # line_update(line, root)
 
-name = 'ks_006_utf_8.txt'
+name = 'ks_013.txt'
 
 with open(name, 'r', encoding='utf-8') as file:
     for line in file:
-        word, flag = word_extract(line)
-#        print(word, flag)
-        root = word_check(word, flag)
-        line_update(line, root)
-
+        try:
+            word, flag = word_extract(line)
+#           print(word, flag)
+            root = word_check(word, flag)
+            line_update(line, root)
+        except:
+            line_update(line, '')
+            print ("Error line for request", line)
