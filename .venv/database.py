@@ -82,12 +82,13 @@ def get_words_from_roots(pattern):
     return s
 
 def get_word_and_root(word, flag):
-    check_word = cursor.execute(f"SELECT id_root FROM Words WHERE word = '{word}';").fetchall()
-    print (check_word)
+    check_word = cursor.execute(f'SELECT id_root FROM Words WHERE word = "{word}";').fetchall()
+#    print (check_word)
     if len(check_word) > 0 and flag == True:
-        print (len(check_word))
+#        print (len(check_word))
         cursor.execute(f'UPDATE Words SET marker = "слово есть в КС06, корень отдан" WHERE word = "{word}";')
         connection.commit()
+#        print(check_word[0][0])
         return check_word[0][0]
 
     elif len(check_word) > 0 and flag == False:
