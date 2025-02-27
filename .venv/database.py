@@ -17,6 +17,7 @@ word TEXT NOT NULL,
 id_root TEXT, 
 pattern TEXT,
 part_of_speech TEXT
+marker TEXT
 )
 ''')
 
@@ -61,12 +62,16 @@ def word_connect_root(word, root, id_root):
     connection.commit()
 
 def get_all():
-     s = cursor.execute("SELECT * FROM Words ORDER by id_root, word;").fetchall()
+     s = cursor.execute("SELECT * FROM Words "
+                        "WHERE id_root != 'акт' and id_root != 'прав' "
+                        "AND part_of_speech != 'топонимы' AND part_of_speech != 'фамилии' AND part_of_speech != 'имена собственные' "
+                        "ORDER by id_root, word;").fetchall()
      connection.commit()
      return s
 
 def get_all_roots():
-    s = cursor.execute("SELECT DISTINCT id_root, pattern, root_wiki FROM Words ORDER by id_root;").fetchall()
+    s = cursor.execute("SELECT DISTINCT id_root, pattern, root_wiki FROM Words "
+                       "WHERE id_root != 'акт' and id_root != 'прав' ORDER by id_root;").fetchall()
     connection.commit()
     return s
 
@@ -76,6 +81,23 @@ def get_words_from_roots(pattern):
     connection.commit()
     return s
 
+def get_word_and_root(word, flag):
+    check_word = cursor.execute(f"SELECT id_root FROM Words WHERE word = '{word}';").fetchall()
+    print (check_word)
+    if len(check_word) > 0 and flag == True:
+        print (len(check_word))
+        cursor.execute(f'UPDATE Words SET marker = "слово есть в КС06, корень отдан" WHERE word = "{word}";')
+        connection.commit()
+        return check_word[0][0]
+
+    elif len(check_word) > 0 and flag == False:
+        cursor.execute(f'UPDATE Words SET marker = "слово есть в КС06 уже с корнем" WHERE word = "{word}";')
+        connection.commit()
+        return ''
+
+    else:
+        connection.commit()
+        return ''
 #
 # def count():
 #     s = cursor.execute("SELECT COUNT(*) FROM users;").fetchone()
@@ -103,3 +125,4 @@ def delete_root(id):
 def delete_word(id):
     cursor.execute(f"DELETE FROM Word WHERE id = {id}; ").fetchall()
     connection.commit()
+
