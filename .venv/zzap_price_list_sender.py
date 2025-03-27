@@ -4,6 +4,7 @@ from sys import argv
 import webbrowser
 import base64
 import requests
+import config
 
 module, filename = argv
 
@@ -24,23 +25,23 @@ data = open(filename, 'rb').read()
 # decoded_string = decoded_bytes.decode("utf-8")
 # print(decoded_string)
 
-# login = "info@20bar.ru"
-# password = "Skar2500!"
-# code_templ = 350016735	#int	да	код шаблона (этот шаблон должен быть включен и иметь тип 'Загрузка прайса через API')
-# url = "https://docs.google.com/spreadsheets/d/1-SjC83O7lTH7kmLKlooDauipJyXKi6Sr?rtpof=true&usp=drive_fs"	#да	ссылка на прайс-лист
-# file_body =	""#string	да	содержимое прайс-листа в кодировке base64
+#login = config.USERNAME
+#password = config.PASSWD
+# code_templ = 350016735	#int код шаблона (этот шаблон должен быть включен и иметь тип 'Загрузка прайса через API')
+# url = "https://docs.google.com/spreadsheets/d/1-SjC83O7lTH7kmLKlooDauipJyXKi6Sr?rtpof=true&usp=drive_fs"	#ссылка на прайс-лист
+# file_body =	""#string содержимое прайс-листа в кодировке base64
 # file_name = filename#	string имя файла
-# api_key = 'MBmE7rdJlQjqwrJjLks15PxWg2raF2h7mjVRxi69pb1fs4Me8ghbY1QJXeX'
+#api_key = config.API
 
 #-----------------
 
-login = "info@20bar.ru"
-password = "Skar2500!"
+login = config.USERNAME
+password = config.PASSWD
 code_templ = 350016735	#int код шаблона (этот шаблон должен быть включен и иметь тип 'Загрузка прайса через API')
 url = ""	#да	ссылка на прайс-лист
 #file_body =	str(data)[2:-1]#string содержимое прайс-листа в кодировке base64
 file_name = ""#	string имя файла
-api_key = 'MBmE7rdJlQjqwrJjLks15PxWg2raF2h7mjVRxi69pb1fs4Me8ghbY1QJXeX'
+api_key = config.API
 
 file_body = '''
 bWFyazvQndCw0LfQstCw0L3QuNC1O9Cd0L7QvNC10YAg0L/RgNC+0LjQt9Cy0L7QtNC40YLQtdC7
@@ -576,7 +577,7 @@ OTkwO9Cd0LUg0L7RgNC40LPQuNC90LDQuw==
 
 
 print (f'https://api.zzap.pro/webservice/datasharing.asmx/UploadTemplatePrice?login={login}&password={password}'
-        f'&code_templ={code_templ}&url={url}&file_body={file_body}&file_name={filename}&api_key={api_key}')
+        f'&code_templ={code_templ}&url={url}&file_body={file_body}&file_name={file_name}&api_key={api_key}')
 
 
 #webbrowser.open(f'https://api.zzap.pro/webservice/datasharing.asmx/UploadTemplatePrice?login={login}&password={password}'
@@ -585,7 +586,7 @@ print (f'https://api.zzap.pro/webservice/datasharing.asmx/UploadTemplatePrice?lo
 
 response = requests.post(f'https://api.zzap.pro/webservice/datasharing.asmx/UploadTemplatePrice?login={login}'
                          f'&password={password}&code_templ={code_templ}&url={url}&file_body={file_body}'
-                         f'&file_name={filename}&api_key={api_key}')
+                         f'&file_name={file_name}&api_key={api_key}')
 
 #result = response.json()
 
