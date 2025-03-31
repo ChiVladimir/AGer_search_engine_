@@ -21,7 +21,7 @@ def resize_foto(name, multi):
 
 def paste_foto(base_image, foto_4_paste, position):
     base_image.paste(foto_4_paste, position, foto_4_paste)
-#    base_image.show()
+    base_image.show()
     return base_image
 
 def text_insert(image_4_text, font, text, fill, position):
@@ -30,11 +30,11 @@ def text_insert(image_4_text, font, text, fill, position):
     draw.text(position, text, fill, font)
     return fin_image
 
-url = "https://disk.yandex.ru/d/sxrAZSaRWNl6gg/20bar.JPG"
+url = "https://disk.yandex.ru/d/sxrAZSaRWNl6gg/120bar161976.png"
 
 data = requests.get(url).content
 
-f = open('20bar.JPG','wb+') # Открываем новый файл
+f = open('120bar161976.png','wb+') # Открываем новый файл
 
 f.write(data) # Сохранение данных изображения в переменную data в файл
 
@@ -43,20 +43,20 @@ f.close() # Закрываем файл
 #img = Image.open('20bar.JPG') # Открываем, смотрим
 #img.show()
 
-file_path = '20bar.JPG'
+file_path = '120bar161976.png'
 
 # Загрузка изображения
-#urllib.request.urlretrieve(url, file_path)
+urllib.request.urlretrieve(url, file_path)
 
-# resource = urlopen(url)
-# out = open(url, 'wb')
-# out.write(resource.read())
-# out.close()
+resource = urlopen(url)
+out = open(url, 'wb')
+out.write(resource.read())
+out.close()
 
-# h = httplib2.Http('.cache')
-# response, content = h.request(url)
-# out = open(url, 'wb')
-# out.write(content)
-# out.close()
+h = httplib2.Http('.cache')
+response, content = h.request(url)
+out = open(url, 'wb')
+out.write(content)
+out.close()
 
-webbrowser.open(url)
+#webbrowser.open(url)
